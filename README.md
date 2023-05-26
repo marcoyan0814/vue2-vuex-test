@@ -88,7 +88,28 @@ export default {
 
 ```
 
-### 啟動開發測試  
+## 啟動開發測試  
 ```
 npm run serve
+```
+
+## 其它補充  
+```
+// 當 v-for 裡有一個 select 欄位，但來源資料裡並沒有時，可以搭配 ref 及 index 來取得 user 選取的值 (data 內不需要建立)
+<li v-for="(p,index) in productList" :key="p.id">   
+    <select :key="p.id" ref="amounts">
+        <option 
+            :value="num" 
+            v-for="num in 10" 
+            :key="num"
+            :selected="num===1"
+        >
+        {{ num }}
+        </option>
+    </select>
+    <button @click="addCart(p,index)">加入購物車</button>
+</li>
+
+// 取得方法
+this.$refs.amounts[index].value
 ```

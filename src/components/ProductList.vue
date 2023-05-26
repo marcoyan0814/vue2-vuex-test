@@ -8,14 +8,20 @@
         </div>
         <div>
             <h2>目前商品</h2>
-            數量：
-            <select v-model="amount">
-                <option :value="num" v-for="num in 10" :key="num">{{ num }}</option>
-            </select>
             <ul>
-                <li v-for="p in productList" :key="p.id">
+                <li v-for="(p,index) in productList" :key="p.id">
                     {{ p.name }} / ${{ p.price }}
-                    <button @click="addCart(p)">加入購物車</button>
+                    <select :key="p.id" ref="amounts">
+                        <option 
+                            :value="num" 
+                            v-for="num in 10" 
+                            :key="num"
+                            :selected="num===1"
+                        >
+                        {{ num }}
+                        </option>
+                    </select>
+                    <button @click="addCart(p,index)">加入購物車</button>
                 </li>
             </ul>
         </div>
@@ -27,12 +33,12 @@
     import {mapState,mapActions,mapMutations} from 'vuex'
     export default {
         name:"ProductList",
-        data() {
-            return {
-                amount: 1
-            }
-        },
         computed: {
+            // amount:{
+            //     get(e){
+            //         console.log(e)
+            //     }
+            // },
             //基本方式
             // productList(){
             //     return this.$store.state.Product.productList
@@ -55,17 +61,22 @@
                 const pObj = {
                     id: nanoid(),
                     name: this.$refs.name.value,
-                    price: this.$refs.price.value
+                    price: this.$refs.price.value,
+                    amount: this.$refs.amount
                 }
                 //基本方式
                 this.$store.dispatch('Product/addProduct',pObj);
             },
             //加入至購物車
-            addCart(p){
+            addCart(p,index){
+                //取得user選取的數量
+                const amount = this.$refs.amounts[index].value
+                //組成內容
                 const cartObj = {
                     product: p,
-                    amount:this.amount
+                    amount: amount
                 }
+                //加到購物車裡
                 this.$store.dispatch('Cart/addCart',cartObj)
             }
         },

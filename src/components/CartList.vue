@@ -6,7 +6,7 @@
             <h3>{{showCartTotal}}</h3>
             <ul>
                 <li v-for="cart in cartList" :key="cart.cart_id">
-                    {{ cart.name }} * {{ cart.amount }} = 小計 {{ cart.subtotal }} 元
+                    {{ cart.name }} ${{ cart.price  }} * {{ cart.amount }} = 小計 {{ cart.subtotal }} 元
                     <button type="button" @click="remove(cart)">刪除</button>
                 </li>
             </ul>
